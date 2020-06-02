@@ -114,12 +114,24 @@ class Api extends IndexBase
             //是否为团主/0代表团主/1代表非团主
             $group['group_follow'] = input('group_id');
             //非团主时/团主的id/ 为团主的时候为0
-            $group['superior_user_id'] = $group['superior_user_id'];
+//            $group['superior_user_id'] = $group['superior_user_id'];
             //上级团主的id
             if ($group['superior_user_id'] == $group['user_id']) {
-                echo '<script type="text/javascript">window.alert("不能参加自己开的团"); window.location.href = "http://www.tp5-integrate.com/index"</script>';
+                echo '<script type="text/javascript">window.alert("不能参加自己开的团"); window.location.href = "http://www.tp5-integrate.com/index"</script>';exit;
             } else {
-                $gr = Db::name('group')->insert($group);
+                $whre['group_follow'] = $group['group_follow'];
+                $whre['goods_id'] = $group['goods_id'];
+                $whre['user_id'] = $group['user_id'];
+                $twice = Db::name('group')->where($whre)->find();//判断是不是一个团你参加了两次！
+                if ($twice){
+                    //如果一个团你参加了两次报错
+                    echo '<script type="text/javascript">window.alert("你已经参加过本团了"); window.location.href = "http://www.tp5-integrate.com/index"</script>';exit;
+                }else{
+                    $gr = Db::name('group')->insert($group);
+                }
+//                dump($whre);
+//                dump($twice);
+//                dump($group);exit;
             }
         }
 //        dump($group);
