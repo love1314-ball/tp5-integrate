@@ -1,0 +1,156 @@
+<!-- 戏曲/增加/编辑页面 -->
+{extend name="base" /}
+{block name="body"}
+<style>
+    .file {
+        position: relative;
+        display: inline-block;
+        background: #D0EEFF;
+        border: 1px solid #99D3F5;
+        border-radius: 4px;
+        padding: 4px 12px;
+        overflow: hidden;
+        color: #1E88C7;
+        text-decoration: none;
+        text-indent: 0;
+        line-height: 20px;
+    }
+
+    .file input {
+        position: absolute;
+        font-size: 100px;
+        right: 0;
+        top: 0;
+        opacity: 0;
+    }
+
+    .file:hover {
+        background: #AADFFD;
+        border-color: #78C3F3;
+        color: #004974;
+        text-decoration: none;
+    }
+
+    .left {
+        margin-left: 5%;
+    }
+
+    .time {
+        width: 770px;
+        height: auto;
+        background-color: antiquewhite;
+    }
+</style>
+
+
+<div class="layui-card">
+    <div class="layui-card-header">戏曲设置</div>
+    <div class="layui-card-body">
+        <form action="{:url('admin/Goods/edit')}" method="post" enctype="multipart/form-data">
+            <input type="hidden" name="id" value="{$id|default=''}">
+            <div class="layui-form-item maximum">
+                <label class="layui-form-label">商品名：</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="goods_name" value="{$all.goods_name|default=''}" placeholder="商品名字"
+                           lay-verify="required"
+                           class="layui-input">
+                </div>
+                <div class="layui-form-mid layui-word-aux">所要增加商品的名字</div>
+            </div>
+
+            {empty name="id"}
+            <div class="layui-form-item">
+                <label class="layui-form-label">商品图片：</label>
+                <div class="layui-input-block">
+                    <input class="file" type="file" name="goods_image" lay-verify="required">
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <label class="layui-form-label">商品轮播：</label>
+                <div class="layui-input-block">
+                    <input class="file" type="file" name="goods_carousel[]" lay-verify="required">
+                </div>
+            </div>
+
+            {else /}
+            <div class="layui-form-item">
+                <label class="layui-form-label">商品图片：</label>
+                <div class="layui-input-block">
+                    <input type="text" name="worn_image" readonly value="{$all.goods_image|default='初次上传图片'}"
+                           class="layui-input">
+                    <p>不选为之前默认</p>
+                    <input class="file" type="file" name="goods_image">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">商品轮播：</label>
+                <div class="layui-input-block">
+                    <input type="text" name="worn_carousel" readonly value="{$all.goods_carousel|default='初次上传轮播图'}"
+                           class="layui-input">
+                    <p>不选为之前默认</p>
+                    <input class="file" type="file" multiple = "multiple" name="goods_carousel[]">
+                </div>
+            </div>
+            {/empty}
+
+            <div class="layui-form-item maximum">
+                <label class="layui-form-label">商品介绍:</label>
+                <div class="layui-input-inline">
+                    <textarea rows="10" cols="50" name="goods_introduce" lay-verify="required"
+                              placeholder="商品的介绍文字">{$all.goods_introduce|default=''}</textarea>
+                </div>
+            </div>
+
+            <div class="layui-form-item maximum">
+                <label class="layui-form-label">拼团人数：</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="goods_group" value="{$all.goods_group|default=''}" placeholder="设置人数"
+                           lay-verify="required"
+                           class="layui-input">
+                </div>
+                <div class="layui-form-mid layui-word-aux">设置商品最少几个人拼团</div>
+            </div>
+
+
+            <div class="layui-form-item maximum">
+                <label class="layui-form-label">拼团价格：</label>
+                <div class="layui-input-inline">
+                    <input type="number" name="goods_group_price" value="{$all.goods_group_price|default=''}"
+                           placeholder="设置价格" lay-verify="required"
+                           class="layui-input">
+                </div>
+                <div class="layui-form-mid layui-word-aux">多人拼团商品的价格</div>
+            </div>
+
+            <div class="layui-form-item maximum">
+                <label class="layui-form-label">单购价格：</label>
+                <div class="layui-input-inline">
+                    <input type="number" name="goods_price" value="{$all.goods_price|default=''}" placeholder="设置价格"
+                           lay-verify="required"
+                           class="layui-input">
+                </div>
+                <div class="layui-form-mid layui-word-aux">单独购买时的价格</div>
+            </div>
+
+            <div class="layui-form-item maximum">
+                <label class="layui-form-label">拼团时间：</label>
+                <div class="layui-input-inline">
+                    <input type="number" name="goods_duration" value="{$all.goods_duration|default=''}" placeholder="设置时间"
+                           lay-verify="required"
+                           class="layui-input">
+                </div>
+                <div class="layui-form-mid layui-word-aux">设置拼团后多长时间失效(小时)</div>
+            </div>
+
+
+            <div class="layui-form-item">
+                <div class="layui-input-block">
+                    <button class="layui-btn" type="submit" lay-submit="">保存</button>
+                    <button class="layui-btn layui-btn-primary" type="reset">重置</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+{/block}

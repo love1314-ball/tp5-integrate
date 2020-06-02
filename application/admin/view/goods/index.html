@@ -1,0 +1,57 @@
+<!-- 商品列表 -->
+{extend name="base" /}
+{block name="body"}
+<style>
+    .image img {
+        widows: 45px;
+        height: 45px;
+    }
+</style>
+<div class="layui-card">
+    <div class="layui-card-body">
+        <div class="layui-btn-group">
+            <a href="{:url('admin/Goods/add')}" class="layui-btn"><i class="fa fa-plus-circle"></i> 增加商品</a>
+        </div>
+        <table class="layui-table layui-form">
+
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>商品名字</th>
+                <th>商品介绍</th>
+                <th> 商品图片</th>
+                <th> 拼团人数</th>
+                <th> 拼团价格</th>
+                <th> 单购价格</th>
+                <th> 操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            {foreach name="all" item="v" empty="$empty"}
+            <tr>
+                <td>{$v.id}</td>
+                <td>{$v.goods_name}</td>
+                <td>
+                    {$v.goods_introduce|mb_substr=0,20}
+                </td>
+                <td>
+                    <img width="50px" height="50px" src="{$v.goods_image}" alt="{$v.goods_name}" srcset="">
+                </td>
+                <td>{$v.goods_group}</td>
+                <td>{$v.goods_group_price}</td>
+                <td>{$v.goods_price}</td>
+                <td>
+                    <a href="{:url('admin/Goods/add', ['up' => $v.id])}"
+                       class="layui-btn layui-btn-xs layui-btn-normal"><i class="fa fa-edit"></i> 编辑</a>
+                    <a href="{:url('admin/Goods/del', ['id' => $v.id])}"
+                       class="layui-btn layui-btn-xs layui-btn-danger ajax-delete"><i class="fa fa-trash-o"></i>
+                        删除</a>
+                </td>
+            </tr>
+            {/foreach}
+            </tbody>
+
+        </table>
+    </div>
+</div>
+{/block}

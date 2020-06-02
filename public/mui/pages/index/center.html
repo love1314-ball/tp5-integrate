@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <title></title>
+    <link href="../../css/mui.min.css" rel="stylesheet"/>
+    <link href="../../css/center.css" rel="stylesheet"/>
+    <link href="../../iconfonts/iconfont.css" rel="stylesheet" />
+    <script src="../../js/mui.min.js"></script>
+</head>
+<body>
+    <nav class="mui-bar mui-bar-tab">
+        <a class="mui-tab-item" id="navtab-index" href="index.html">
+            <span class="mui-icon iconfont icon-shouye"></span>
+            <span class="mui-tab-label">首页</span>
+        </a>
+        <a class="mui-tab-item" id="navtab-category" href="category.html">
+            <span class="mui-icon iconfont icon-fenlei"></span>
+            <span class="mui-tab-label">分类</span>
+        </a>
+        <a class="mui-tab-item" id="navtab-buycar" href="buycar.html">
+            <span class="mui-icon iconfont icon-gouwuchekong"></span>
+            <span class="mui-tab-label">购物车</span>
+        </a>
+        <a class="mui-tab-item mui-active" id="navtab-wode" href="center.html">
+            <span class="mui-icon iconfont icon-wode"></span>
+            <span class="mui-tab-label">我的</span>
+        </a>
+    </nav>
+    <div class="mui-content">
+        <!-- <div class="mui-card margin-no">
+            <div class="mui-card-header mui-card-media"  style="background: #ff6d55;border:0;">
+                <img src="../../images/logo.png" />
+                <div class="mui-media-body">
+                    小M
+                    <p>发表于 2016-06-30 15:30</p>
+                </div>
+            </div>
+            <div class="mui-card-content" style="background: #ff6d55;" >
+                <img src="../../images/headerlogo.png" alt="" width="100%" class="mui-header-img" />
+            </div>
+            <div class="mui-card-footer" style="background: #ec4a46;color:#fff;">
+                <a class="mui-card-link">Like</a>
+                <a class="mui-card-link">Comment</a>
+                <a class="mui-card-link">Read more</a>
+            </div>
+        </div> -->
+        <div class="mui-card margin-no">
+            <div class="mui-card-header mui-card-media" style="height:10rem;background-color: #ff6d55;">
+                <div class="mui-media-body mui-media-didian">
+                    <span class="mui-icon iconfont icon-didian"></span>上海
+                </div>
+                <img src="../../images/headerlogo.png" class="mui-header-img">
+                <div class="mui-center-msg">
+                    <a href="#">登录</a>/
+                    <a href="#">注册</a>
+                </div>
+            </div>
+            <div class="mui-card-text" style="background: #ec4a46;">
+                <ul class="mui-ul">
+                    <li class="mui-card-msg"><a>可用余额￥<span class="mui-center-num">0.00</span></a></li>
+                    <li class="mui-card-msg"><a>优惠券<span class="mui-center-num">0</span>张</a></li>
+                </ul>
+            </div>
+        </div>
+        <ul class="mui-table-view mui-grid-view" style="margin-top:.9375rem">
+            <li class="mui-table-view-cell mui-media">
+                <a href="#">
+                    <i class="mui-icon iconfont icon-daizhifu"></i>
+                    <span class="mui-tab-label">待支付</span>
+                </a>
+            </li>
+            <li class="mui-table-view-cell mui-media">
+                <a href="#">
+                    <i class="mui-icon iconfont icon-shouhuo"></i>
+                    <span class="mui-tab-label">待退货</span>
+                </a>
+            </li>
+            <li class="mui-table-view-cell mui-media">
+                <a href="#">
+                    <i class="mui-icon iconfont icon-daipingjia"></i>
+                    <span class="mui-tab-label">待评价</span>
+                </a>
+            </li>
+            <li class="mui-table-view-cell mui-media">
+                <a href="#">
+                    <i class="mui-icon iconfont icon-tuihuohuanhuo"></i>
+                    <span class="mui-tab-label">退换货</span>
+                </a>
+            </li>
+        </ul>
+         <ul class="mui-table-view">
+            <li class="mui-table-view-cell">
+                <a class="mui-navigate-right"><p class="mui-ellipsis">全部订单</p></a>
+            </li>
+        </ul>
+        <ul class="mui-table-view mui-grid-view" style="margin-top:.9375rem">
+            <li class="mui-table-view-cell mui-media">
+                <a href="#">
+                    <i class="mui-icon iconfont icon-wodeshoucang"></i>
+                    <span class="mui-tab-label">我的收藏</span>
+                </a>
+            </li>
+            <li class="mui-table-view-cell mui-media">
+                <a href="#">
+                    <i class="mui-icon iconfont icon-wodezuji"></i>
+                    <span class="mui-tab-label">我的足迹</span>
+                </a>
+            </li>
+            <li class="mui-table-view-cell mui-media">
+                <a href="#">
+                    <i class="mui-icon iconfont icon-changyongqingdan"></i>
+                    <span class="mui-tab-label">常用清单</span>
+                </a>
+            </li>
+            <li class="mui-table-view-cell mui-media">
+                <a href="#">
+                    <i class="mui-icon iconfont icon-wenzhenjilu"></i>
+                    <span class="mui-tab-label">问诊记录</span>
+                </a>
+            </li>
+        </ul>
+        <ul class="mui-table-view mui-grid-view">
+            <li class="mui-table-view-cell mui-media">
+                <a href="#">
+                    <i class="mui-icon iconfont icon-dizhiguanli"></i>
+                    <span class="mui-tab-label">地址管理</span>
+                </a>
+            </li>
+            <li class="mui-table-view-cell mui-media">
+                <a href="#">
+                    <i class="mui-icon iconfont icon-weibiaoti5"></i>
+                    <span class="mui-tab-label">账户管理</span>
+                </a>
+            </li>
+            <li class="mui-table-view-cell mui-media">
+                <a href="#">
+                    <i class="mui-icon iconfont icon-shouhoufuwu"></i>
+                    <span class="mui-tab-label">售后服务</span>
+                </a>
+            </li>
+            <li class="mui-table-view-cell mui-media">
+                <a href="#">
+                    <i class="mui-icon mui-icon-gear-filled"></i>
+                    <span class="mui-tab-label">设置</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+    <script type="text/javascript">
+        mui.init();
+    </script>
+    <script src="../../js/common.js"></script>
+</body>
+</html>

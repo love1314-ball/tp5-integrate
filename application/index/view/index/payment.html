@@ -1,0 +1,97 @@
+<!doctype html>
+<html>
+<!--购买页 payment-->
+
+<head>
+    <meta charset="UTF-8">
+    <title>购买</title>
+    <meta name="viewport"
+        content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <link href="/mui/css/mui.min.css" rel="stylesheet" />
+    <link href="/mui/css/payment.css" rel="stylesheet" />
+    <script src="/mui/js/mui.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="/mui/css/style.css" />
+
+</head>
+
+<body>
+    <header class="mui-bar mui-bar-nav public-color">
+        <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+        <h1 class="mui-title">购买</h1>
+    </header>
+    <div class="mui-content">
+        {if condition="$data.alone == 0"}
+        <div class="payment-superior">
+            <!-- 团主信息这个必须有不用加判断 -->
+            <div class="to3" align="center">
+                <div class="to2" align="center">
+                    <div class="to1 payment-superior-particulars" align="center">
+                        <img class="payment-superior-image to" src="/static/image/moren.jpg">
+                        <p class="payment-superior-span one">{$direct.phone}</p>
+                    </div>
+                </div>
+            </div>
+            <!-- <div class="payment-superior-particulars">
+            </div> -->
+            <!-- 团队的信息，这个需要判断如果没有人参加所以要判断一下 -->
+            {empty name="user"}
+            {else /}
+            {foreach name="user" item="v"}
+            <div class="payment-superior-particulars">
+                <img class="payment-superior-image" src="/static/image/moren.jpg">
+                <p class="payment-superior-span">{$v.phone}</p>
+            </div>
+            {/foreach}
+            {/empty}
+            <!-- 默认的图片无需管 -->
+            <div class="payment-superior-particulars">
+                <img class="payment-superior-image" src="/static/image/jia.jpg">
+            </div>
+        </div>
+        {/if}
+
+
+        <div class="dfk">
+            <div class="dfk-a">
+                <div class="dfk-a-l">
+                    <img src="{$all.goods_image}" title="{$all.goods_name}" />
+                </div>
+                <div class="dfk-a-c">
+                    <h4>{$all.goods_name}</h4>
+                    <p>{$all.goods_introduce|mb_substr=0,30}</p>
+                </div>
+                <div class="dfk-a-r">
+                    <h4>￥{$all.goods_price}</h4>
+                    <p>数量:1</p>
+                </div>
+            </div>
+            <div class="dfk-b">
+                <div class="dfk-b-t">
+                    <p>共商品1件 {$all.goods_price} 运费0元</p>
+                </div>
+                <div class="dfk-b-b">
+                    <!--/*
+                * alone -- 如果为0就是参加别人的团 /为1那么就是自己开的团
+                * goods_id -- 商品id
+                * goods_single -- 0代表参加拼团  /1代表自己购买，不参加任何团，购买过后直接发货
+                */-->
+                    {empty name="direct"}
+                    <a
+                        href="{:url('index/api/purchase', ['alone' => $data.alone , 'goods_id' => $all.id  , 'goods_single' => $data.single ])}">
+                        <button>付款</button>
+                    </a>
+                    {else /}
+                    <a
+                        href="{:url('index/api/purchase', ['alone' => $data.alone , 'goods_id' => $all.id  , 'goods_single' => $data.single ,'superior_user_id' =>$direct.id , 'group_id' => $data.group_follow ])}">
+                        <button>付款</button>
+                    </a>
+                    {/empty}
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</body>
+
+</html>

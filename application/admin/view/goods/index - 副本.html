@@ -1,0 +1,71 @@
+<!-- 商品/增加商品 -->
+{extend name="base" /}
+{block name="body"}
+
+<style>
+    .image img {
+        widows: 45px;
+        height: 45px;
+    }
+</style>
+<div class="layui-card">
+    <div class="layui-card-body">
+        <div class="layui-btn-group">
+            <a href="{:url('admin/Play/add')}" class="layui-btn"><i class="fa fa-plus-circle"></i> 添加商品</a>
+        </div>
+
+    </div>
+</div>
+
+
+
+
+
+<table id="goods" lay-filter="goods">
+</table>
+
+<!--引入layui-js-->
+<script src="__ADMIN__/layui/layui.js"  src="//layui.hcwl520.com.cn/layui-v2.4.5/layui.js"></script>
+<script src="__ADMIN__/layui/layui.all.js"></script>
+<script src="__ADMIN__/js/jquery.min.js"></script>
+<script src="__ADMIN__/js/layui.base.js"></script>
+<script>
+    //从数据中查找数据
+    layui.use('table', function () {
+        var table = layui.table;
+        //第一个实例
+        window.ins1 = table.render({
+            elem: '#goods'
+            , url: "{:url('admin/goods/duqu')}" //数据接口
+            , parseData: function (res) {
+                return {
+                    "code": 0,
+                    data: res
+                }
+            }
+            , cols: [[ //表头
+                {field: 'id', title: 'ID', width: 80,}
+                , {field: 'goods_name', title: '商品名字', edit: 'text' ,sort:'text'}
+                , {field: 'goods_introduce', title: '商品介绍', edit: 'text'}
+                , {field: 'goods_image', title: '商品图片', edit: 'text'}
+                , {field: 'goods_group', title: '拼团人数', edit: 'text'}
+                , {field: 'goods_group_price', title: '拼团价格', edit: 'text'}
+                , {field: 'goods_price', title: '单购价格', edit: 'text'}
+            ]]
+        });
+    });
+</script>
+<script>
+
+    //监听单元格编辑
+    table.on("edit(goods)", function(obj) {
+        var value = obj.value //得到修改后的值
+            ,
+            data = obj.data //得到所在行所有键值
+            ,
+            field = obj.field; //得到字段
+        console.log(obj)
+    });
+</script>
+{/block}
+<!-- 注意：如果你直接复制所有代码到本地，上述js路径需要改成你本地的 -->

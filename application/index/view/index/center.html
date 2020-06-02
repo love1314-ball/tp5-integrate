@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport"
+        content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <title></title>
+    <link href="/mui/css/mui.min.css" rel="stylesheet" />
+    <link href="/mui/css/center.css" rel="stylesheet" />
+    <link href="/mui/iconfonts/iconfont.css" rel="stylesheet" />
+    <link href="/mui/css/index.css" rel="stylesheet" />
+    <script src="/mui/js/mui.min.js"></script>
+    <script src="http://libs.baidu.com/jquery/1.9.0/jquery.js"></script>
+</head>
+
+<body>
+    <nav class="mui-bar mui-bar-tab">
+        <a class="nav mui-active" id="navtab-index" href="{:url('index/index/index')}">
+            <span class="mui-icon iconfont icon-shouye"></span>
+        </a>
+        <a class="nav" id="navtab-wode" href="{:url('index/index/center')}">
+            <span class="mui-icon iconfont icon-wode"></span>
+        </a>
+    </nav>
+    <div class="mui-content">
+
+        <div class="mui-card margin-no">
+            <div class="mui-card-header mui-card-media" style="height:10rem;background-color: #ff6d55;">
+                <div class="mui-media-body mui-media-didian">
+                    <span class="mui-icon iconfont icon-didian"></span>上海
+                </div>
+                <img src="/static/image/moren.jpg" class="mui-header-img">
+                <div class="mui-center-msg">
+                    {empty name="$Request.session.user_phone"}
+                    <a href="{:url('index/index/disembark')}">登录</a>/
+                    <a href="{:url('index/index/login')}">注册</a>
+                    {else /}
+                    {$Request.session.user_phone}
+                    {/empty}
+                </div>
+            </div>
+            <div class="mui-card-text" style="background: #ec4a46;">
+                <ul class="mui-ul">
+                    <li class="mui-card-msg"><a>可用余额￥<span class="mui-center-num">0.00</span></a></li>
+                    <li class="mui-card-msg"><a>优惠券<span class="mui-center-num">0</span>张</a></li>
+                </ul>
+            </div>
+        </div>
+        <ul class="mui-table-view mui-grid-view" style="margin-top:.9375rem">
+            <li class="mui-table-view-cell mui-media">
+                <a href="#">
+                    <i class="mui-icon iconfont icon-daizhifu"></i>
+                    <span class="mui-tab-label">待支付</span>
+                </a>
+            </li>
+            <li class="mui-table-view-cell mui-media">
+                <a href="#">
+                    <i class="mui-icon iconfont icon-shouhuo"></i>
+                    <span class="mui-tab-label">待退货</span>
+                </a>
+            </li>
+            <li class="mui-table-view-cell mui-media">
+                <a href="#">
+                    <i class="mui-icon iconfont icon-daipingjia"></i>
+                    <span class="mui-tab-label">待评价</span>
+                </a>
+            </li>
+            <li class="mui-table-view-cell mui-media">
+                <a href="#">
+                    <i class="mui-icon iconfont icon-tuihuohuanhuo"></i>
+                    <span class="mui-tab-label">退换货</span>
+                </a>
+            </li>
+        </ul>
+        <ul class="mui-table-view">
+            <li class="mui-table-view-cell">
+                <a class="mui-navigate-right">
+                    <p class="mui-ellipsis">全部订单</p>
+                </a>
+            </li>
+        </ul>
+        <ul class="mui-table-view mui-grid-view" style="margin-top:.9375rem">
+            <li class="mui-table-view-cell mui-media">
+                <a href="#">
+                    <i class="mui-icon iconfont icon-wodeshoucang"></i>
+                    <span class="mui-tab-label">我的收藏</span>
+                </a>
+            </li>
+            <li class="mui-table-view-cell mui-media">
+                <a href="#">
+                    <i class="mui-icon iconfont icon-wodezuji"></i>
+                    <span class="mui-tab-label">我的足迹</span>
+                </a>
+            </li>
+            <li class="mui-table-view-cell mui-media">
+                <a href="#">
+                    <i class="mui-icon iconfont icon-changyongqingdan"></i>
+                    <span class="mui-tab-label">常用清单</span>
+                </a>
+            </li>
+            <li class="mui-table-view-cell mui-media">
+                <a href="#">
+                    <i class="mui-icon iconfont icon-wenzhenjilu"></i>
+                    <span class="mui-tab-label">问诊记录</span>
+                </a>
+            </li>
+        </ul>
+        <ul class="mui-table-view mui-grid-view">
+            <li class="mui-table-view-cell mui-media">
+                <a href="#">
+                    <i class="mui-icon iconfont icon-dizhiguanli"></i>
+                    <span class="mui-tab-label">地址管理</span>
+                </a>
+            </li>
+            <li class="mui-table-view-cell mui-media">
+                <a href="#">
+                    <i class="mui-icon iconfont icon-weibiaoti5"></i>
+                    <span class="mui-tab-label">账户管理</span>
+                </a>
+            </li>
+            <li class="mui-table-view-cell mui-media">
+                <a href="#" onclick="out()">
+                    <i class="mui-icon iconfont icon-shouhoufuwu"></i>
+                    <span class="mui-tab-label">退出账号</span>
+                </a>
+            </li>
+            <li class="mui-table-view-cell mui-media">
+                <a href="#">
+                    <i class="mui-icon mui-icon-gear-filled"></i>
+                    <span class="mui-tab-label">设置</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+    <script type="text/javascript">
+        mui.init();
+        function out() {
+            var btnArray = ['否', '是'];
+            mui.confirm('是否退出', '退出账户', btnArray, function (e) {
+                // 否：e.index=0;   是：e.index=1;
+                if (e.index == 1) {
+                    $.ajax({
+                        type: 'POST',
+                        url: "{:url('index/api/out')}",
+                        dataType: 'json',
+                        success: function (data) {
+                            // console.log(data);
+                            if (data == 1) {
+                                mui.toast('退出成功', { duration: 'long', type: 'div' });
+                                setTimeout(function () {
+                                    window.location.href = "{:url('index/index/disembark')}"
+                                }, 1000);
+
+                            }
+                        },
+                        error: function () {
+                            console.log("error");
+                        }
+                    });
+                } else {
+                    mui.toast('您取消了登录', { duration: 'long', type: 'div' });
+                }
+            })
+
+
+        }
+    </script>
+    <script src="../../js/common.js"></script>
+</body>
+
+</html>
