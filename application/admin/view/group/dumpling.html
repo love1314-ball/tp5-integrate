@@ -1,0 +1,66 @@
+<!-- 预约/ 景点配置 -->
+{extend name="base" /}
+{block name="body"}
+<style>
+    .image img {
+        widows: 45px;
+        height: 45px;
+    }
+    .available{
+        color: red;
+    }
+    .examine{
+        color: #00B83F;
+    }
+
+</style>
+<div class="layui-card">
+    <div class="layui-card-body">
+        <!--<div class="layui-btn-group">-->
+        <!--<a href="{:url('admin/Play/add')}" class="layui-btn"><i class="fa fa-plus-circle"></i> 添加戏曲</a>-->
+        <!--</div>-->
+        <div>团主信息</div>
+        <table class="layui-table layui-form">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>用户手机号</th>
+                <th>拼团开始时间</th>
+                <th>拼团结束时间</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>{$advocate.id}</td>
+                <td>{$advocate.user_phone}</td>
+                <td>{:date('Y-m-d H:i:s',$advocate.group_add_time)}</td>
+                <td>{$advocate.group_finish_time}</td>
+            </tr>
+            </tbody>
+        </table>
+        <div>
+            团成员信息
+        </div>
+        <table class="layui-table layui-form">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>用户手机号</th>
+                <th>参团时间</th>
+            </tr>
+            </thead>
+
+            <tbody>
+            {foreach name="subordinate" item="v" empty="$empty"}
+            <tr>
+                <td>{$v.id}</td>
+                <td>{$v.user_phone}</td>
+                <td>{:date('Y-m-d H:i:s',$v.group_add_time)}</td>
+            </tr>
+            {/foreach}
+            </tbody>
+        </table>
+
+    </div>
+</div>
+{/block}

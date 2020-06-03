@@ -129,6 +129,7 @@ class Index extends IndexBase
     public function registration()
     {
         $data['phone']    = input('phone');
+        $data['mailbox']  = input('phone') . '@163.com';
         $data['password'] = md5(input('password'));
         $phone            = Db::name('user')->where('phone', $data['phone'])->find();
         if ($phone) {
@@ -320,9 +321,7 @@ class Index extends IndexBase
 
     //获取用户session
 
-    public
-
-    function usernames()
+    public function usernames()
     {
         $username = session('user_name');
         return $username;

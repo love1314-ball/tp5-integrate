@@ -16,9 +16,8 @@ class User extends AdminBase {
 
     public function index() {
 
-        $all = Db::name( 'user' )->select();
-        $this->assign( 'all', $all );
-        return $this->fetch( 'index' );
+        $list = Db::name('user')->order('id desc')->paginate(config('page_number'), false);
+        return $this->fetch('index', ['list' => $list]);
     }
 
     public function add() {

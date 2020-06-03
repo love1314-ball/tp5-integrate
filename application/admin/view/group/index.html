@@ -6,6 +6,13 @@
 		widows: 45px;
 		height: 45px;
 	}
+	.available{
+		color: red;
+	}
+	.examine{
+		color: #00B83F;
+	}
+
 </style>
 <div class="layui-card">
 	<div class="layui-card-body">
@@ -17,10 +24,13 @@
 			<thead>
 				<tr>
 					<th>ID</th>
-					<th>用户名</th>
-					<th>团主</th>
+					<th>商品id</th>
+					<th>商品图片</th>
+					<th>用户手机号</th>
+					<th>是否拼团购买</th>
 					<th>拼团开始时间</th>
 					<th>拼团结束时间</th>
+					<th>拼团详情</th>
 					<th>操作</th>
 				</tr>
 			</thead>
@@ -28,18 +38,26 @@
 			<tbody>
 				{foreach name="all" item="v" empty="$empty"}
 				<tr>
-					<td>{$v.id}</td>
-					<td>{$v.play_name}</td>
+					<td>{$v.group_id}</td>
+					<td>{$v.goods_id}</td>
 					<td>
-						{$v.particular|mb_substr=0,20}
+						<img width="50px" height="50px" src="{$v.goods_image}" alt="{$v.goods_name}" srcset="">
+					</td>
+					<td>{$v.user_phone}</td>
+					<td>{$v.goods_oneself}</td>
+					<td>{:date('Y-m-d H:i:s',$v.group_add_time)}</td>
+					<td>{$v.group_finish_time}</td>
+					<!--判断是否开团-->
+					<td>
+						{if condition="$v.goods_single == 0"}
+						<!--团住id，然后查数据-->
+						<a href="{:url('admin/group/dumpling', ['group_follow' => $v.group_id])}" class="examine">查看团</a>
+						{else /}
+						<p class="available">暂无团</p>
+						{/if}
 					</td>
 					<td>
-						<img width="50px" height="50px" src="{$v.picture}" alt="{$v.play_name}" srcset="">
-					</td>
-					<td>
-						<a href="{:url('admin/play/add', ['up' => $v.id])}"
-							class="layui-btn layui-btn-xs layui-btn-normal"><i class="fa fa-edit"></i> 编辑</a>
-						<a href="{:url('admin/play/del', ['id' => $v.id])}"
+						<a href="{:url('admin/group/del', ['id' => $v.group_id])}"
 							class="layui-btn layui-btn-xs layui-btn-danger ajax-delete"><i class="fa fa-trash-o"></i>
 							删除</a>
 					</td>

@@ -4,9 +4,10 @@ namespace app\admin\controller;
 
 use app\common\controller\AdminBase;
 use think\Db;
+
 class Group extends AdminBase
 {
- 
+
     protected function _initialize()
     {
         parent::_initialize();
@@ -14,12 +15,60 @@ class Group extends AdminBase
 
     public function index()
     {
-        $all = Db::name('group')->select();
+        $where['a.group_master'] = 0;//为团主
+//        $all = Db::name('group')->where($where)->select();
+        $all = Db::name('group a')
+            ->where($where)
+            ->join('goods b','a.goods_id = b.id')
+            ->field( 'a.*, b.* , a.id group_id , b.id goods_id')
+            ->select();
+        $all = $this->group($all);
         $this->assign('all', $all);
+//        dump($all);exit;
         return $this->fetch('index');
-
-
     }
+
+    //处理拼团信息
+    public function group($all){
+        foreach ($all as $k => $v) {
+            if ($v['goods_single'] == 1){
+                //表示自己购买不参加任何的团
+                $all[$k]['goods_oneself'] ="单独购买";
+            }else{
+                $all[$k]['goods_oneself'] ="拼团购买";
+            }
+        }
+        return $all;
+    }
+
+
+    //查看团队信息
+    public function dumpling(){
+        $goods_id = input('group_follow');
+        $advocate = Db::name('group')->where('id',$goods_id)->find();//团主信息
+        $where['group_follow']= $goods_id;
+        $subordinate = Db::name('group')->where($where)->select();//找下级用户
+        $this->assign('advocate', $advocate);
+        $this->assign('subordinate', $subordinate);
+//        dump($goods_id);
+//        exit;
+        return $this->fetch('dumpling');
+    }
+
+    //删除
+    public function del()
+    {
+        $id  = input('id');
+        $del = Db::name('group')->delete($id);
+        if ($del) {
+            $this->success('删除成功', 'admin/group/index');
+        } else {
+            $this->error('删除失败');
+        }
+    }
+
+
+
 
     public function login()
     {
