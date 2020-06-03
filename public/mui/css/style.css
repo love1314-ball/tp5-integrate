@@ -822,6 +822,7 @@
 .dfk-a-l img{
     padding: 5px 10px;
     width: 100%;
+    height: 97px;
 }
 .dfk-a-c{
     width: 65%;
@@ -853,8 +854,8 @@
     line-height: 15px;
 }
 .dfk-b{
-    background: #fff;
-    margin-bottom: 10px;
+    background-color: wheat;
+    margin-bottom: 28px;
 }
 .dfk-b-t p{
     margin: 0px;

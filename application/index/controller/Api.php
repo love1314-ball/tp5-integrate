@@ -94,6 +94,11 @@ class Api extends IndexBase
         $group['goods_single'] = input('goods_single');
         $group['superior_user_id'] = input('superior_user_id');
 
+        $order['user_phone'] = session('user_phone');
+        $order['user_id'] = session('user_id');
+        $order['order_mark'] = rand(0,9999999999999999);
+        $order['goods_id'] = input('goods_id');
+        $order['order_add_time'] = $group['group_add_time'];
         /*
          * 增加订单表
          * --单独购买，不拼团购买
@@ -106,10 +111,14 @@ class Api extends IndexBase
              * $group['group_master'] = 0;          是否为团主/0代表团主/1代表非团主
              * $group['group_follow'] = 0;          非团主时/团主的id/ 为团主的时候为0
              * $group['superior_user_id'] = 0;      上级团主的id /因为是自己购买所以上级id为0
+             * -- 订单表
+             *  $order['group_alone'] = 1;          等于1，说明自己购买的没有使用团购
              * */
+            $order['group_alone'] = 1;
             $group['group_master'] = 0;
             $group['group_follow'] = 0;
             $group['superior_user_id'] = 0;
+            Db::name('order')->insert($order);
             $gr = Db::name('group')->insert($group);
         }
 
@@ -123,7 +132,10 @@ class Api extends IndexBase
              * group_master                                     是否为团主/0代表团主/1代表非团主
              * group_follow                                     非团主时/团主的id/ 为团主的时候为0
              * $group['superior_user_id'] == $group['user_id'] 判断自己不能参加自己开的团
+             * --订单表
+             *  $order['group_alone'] = 0;                      等于1说明是拼团购买的
              * */
+            $order['group_alone'] = 0;
             $group['group_master'] = 1;
             $group['group_follow'] = input('group_id');
             if ($group['superior_user_id'] == $group['user_id']) {
@@ -148,6 +160,7 @@ class Api extends IndexBase
                     </script>';
                     exit;
                 } else {
+                    Db::name('order')->insert($order);
                     $gr = Db::name('group')->insert($group);
                 }
             }

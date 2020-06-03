@@ -1,0 +1,51 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="/mui/css/mui.min.css" rel="stylesheet" />
+		<script src="/mui/js/mui.min.js"></script>
+		<link rel="stylesheet" type="text/css" href="/mui/css/style.css"/>
+	</head>
+	<body>
+		<header class="mui-bar mui-bar-nav public-color">
+		    <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+		    <h1 class="mui-title">我的订单</h1>
+		</header>
+		<div class="mui-content">
+			<div class="dfk">
+
+				{foreach name="order" item="v" empty="$empty"}
+				<div class="dfk-a">
+					<div class="dfk-a-l">
+						<img src="{$v.goods_image}" title="{$v.goods_name}" />
+					</div>
+					<div class="dfk-a-c">
+						<h4>{$v.goods_name}</h4>
+						<p>{$v.goods_introduce|mb_substr=0,30}</p>
+						<p>订单号：{$v.order_mark}</p>
+						<p>下单时间：{:date('Y-m-d H:i:s',$v.order_add_time)}</p>
+						<p>是否拼团购买：
+							{if condition="$v.group_alone == 0"}
+							是
+							{else /}
+							否
+							{/if}
+						</p>
+					</div>
+					<div class="dfk-a-r">
+						<h4>￥{$v.goods_price}</h4>
+						<p>数量:1</p>
+					</div>
+				</div>
+				<div class="dfk-b">
+					<div class="dfk-b-t">
+
+					</div>
+				</div>
+				{/foreach}
+			</div>
+		</div>
+	</body>
+</html>

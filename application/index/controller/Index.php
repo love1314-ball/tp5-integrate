@@ -158,4 +158,24 @@ class Index extends IndexBase
             //账户或者密码错误
         }
     }
+
+    //判断session
+    public function usernames(){
+        $username = session('user_phone');
+        return $username;
+    }
+
+    //个人订单信息
+    public function order(){
+        $user_id = session('user_id');
+
+        $order = Db::name('order a')
+            ->join('goods b', 'a.goods_id = b.id')
+            ->field('a.*, b.*, a.id order_id , b.id goods_id')
+            ->select();
+        $this->assign('order', $order);
+        return $this->fetch('order');
+    }
+
+
 }

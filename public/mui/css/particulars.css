@@ -81,7 +81,8 @@ ul {
 }
 
 .scrollDiv li {
-    height: 62px;
+    height: 42px;
+    margin-top: 2%;
 }
 
 #s2,

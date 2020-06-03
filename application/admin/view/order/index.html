@@ -2,52 +2,74 @@
 {extend name="base" /}
 {block name="body"}
 <style>
-	.image img {
-		widows: 45px;
-		height: 45px;
-	}
+    .image img {
+        widows: 45px;
+        height: 45px;
+    }
 </style>
-<div class="layui-card">
-	<div class="layui-card-body">
-		<!--<div class="layui-btn-group">-->
-			<!--<a href="{:url('admin/Play/add')}" class="layui-btn"><i class="fa fa-plus-circle"></i> 添加戏曲</a>-->
-		<!--</div>-->
-		<table class="layui-table layui-form">
+<div class="layui-card-header">
+    <form action="{:url('admin/order/index')}" class="layui-form" method="get">
+        <div class="layui-form-item">
+            <div class="layui-input-inline">
+                <input type="number" name="user_phone" value="" autocomplete="off" placeholder="输入手机号"
+                       class="layui-input">
+            </div>
 
-			<thead>
-				<tr>
-					<th>ID</th>
-					<th>用户名</th>
-					<th>订单号</th>
-					<th>下单时间</th>
-					<th>状态/已拼团</th>
-					<th>操作</th>
-				</tr>
-			</thead>
+            <div class="layui-input-inline">
+                <input type="number" name="order_mark" value="" autocomplete="off" placeholder="输入订单号"
+                       class="layui-input">
+            </div>
 
-			<tbody>
-				{foreach name="all" item="v" empty="$empty"}
-				<tr>
-					<td>{$v.id}</td>
-					<td>{$v.play_name}</td>
-					<td>
-						{$v.particular|mb_substr=0,20}
-					</td>
-					<td>
-						<img width="50px" height="50px" src="{$v.picture}" alt="{$v.play_name}" srcset="">
-					</td>
-					<td>
-						<a href="{:url('admin/play/add', ['up' => $v.id])}"
-							class="layui-btn layui-btn-xs layui-btn-normal"><i class="fa fa-edit"></i> 编辑</a>
-						<a href="{:url('admin/play/del', ['id' => $v.id])}"
-							class="layui-btn layui-btn-xs layui-btn-danger ajax-delete"><i class="fa fa-trash-o"></i>
-							删除</a>
-					</td>
-				</tr>
-				{/foreach}
-			</tbody>
-
-		</table>
-	</div>
+            <div class="layui-input-inline" style="width: 50px;">
+                <button class="layui-btn layui-btn-primary ajax-search"><i class="fa fa-search"></i></button>
+            </div>
+            <br>
+        </div>
+    </form>
 </div>
+
+<table class="layui-table layui-form">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>商品id</th>
+        <th>商品名称</th>
+        <th>商品图片</th>
+        <th>用户手机号</th>
+        <th>订单号</th>
+        <th>下单时间</th>
+        <th>拼团详情</th>
+        <th>操作</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    {foreach name="all" item="v" empty="$empty"}
+    <tr>
+        <td>{$v.order_id}</td>
+        <td>{$v.goods_id}</td>
+        <td>{$v.goods_name}</td>
+        <td>
+            <img width="50px" height="50px" src="{$v.goods_image}" alt="{$v.goods_name}" srcset="">
+        </td>
+        <td>{$v.user_phone}</td>
+        <td>{$v.order_mark}</td>
+        <td>{$v.order_add_time}</td>
+        <td>
+            {if condition="$v.group_alone == 1"}
+            团主
+            {else /}
+            非团主
+            {/if}
+        </td>
+        <td>
+            <a href="{:url('admin/order/del', ['id' => $v.order_id])}"
+               class="layui-btn layui-btn-xs layui-btn-danger ajax-delete"><i class="fa fa-trash-o"></i>
+                删除</a>
+        </td>
+    </tr>
+    {/foreach}
+    </tbody>
+</table>
+
 {/block}

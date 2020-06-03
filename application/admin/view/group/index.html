@@ -1,71 +1,137 @@
-<!-- 预约/ 景点配置 -->
+<!-- 拼团管理 -->
 {extend name="base" /}
 {block name="body"}
 <style>
-	.image img {
-		widows: 45px;
-		height: 45px;
-	}
-	.available{
-		color: red;
-	}
-	.examine{
-		color: #00B83F;
-	}
+    .image img {
+        widows: 45px;
+        height: 45px;
+    }
+
+    .available {
+        color: red;
+    }
+
+    .layui-btn-group {
+        margin-left: 2%;
+    }
+
+    .examine {
+        color: #00B83F;
+    }
 
 </style>
-<div class="layui-card">
-	<div class="layui-card-body">
-		<!--<div class="layui-btn-group">-->
-			<!--<a href="{:url('admin/Play/add')}" class="layui-btn"><i class="fa fa-plus-circle"></i> 添加戏曲</a>-->
-		<!--</div>-->
-		<table class="layui-table layui-form">
 
-			<thead>
-				<tr>
-					<th>ID</th>
-					<th>商品id</th>
-					<th>商品图片</th>
-					<th>用户手机号</th>
-					<th>是否拼团购买</th>
-					<th>拼团开始时间</th>
-					<th>拼团结束时间</th>
-					<th>拼团详情</th>
-					<th>操作</th>
-				</tr>
-			</thead>
+<div class="layui-card-header">
+    <form action="{:url('admin/group/index')}" class="layui-form" method="get">
+        <div class="layui-form-item">
+            <div class="layui-input-inline">
+                <input type="number" name="user_phone" value="" autocomplete="off" placeholder="输入手机号"
+                       class="layui-input">
+            </div>
 
-			<tbody>
-				{foreach name="all" item="v" empty="$empty"}
-				<tr>
-					<td>{$v.group_id}</td>
-					<td>{$v.goods_id}</td>
-					<td>
-						<img width="50px" height="50px" src="{$v.goods_image}" alt="{$v.goods_name}" srcset="">
-					</td>
-					<td>{$v.user_phone}</td>
-					<td>{$v.goods_oneself}</td>
-					<td>{:date('Y-m-d H:i:s',$v.group_add_time)}</td>
-					<td>{$v.group_finish_time}</td>
-					<!--判断是否开团-->
-					<td>
-						{if condition="$v.goods_single == 0"}
-						<!--团住id，然后查数据-->
-						<a href="{:url('admin/group/dumpling', ['group_follow' => $v.group_id])}" class="examine">查看团</a>
-						{else /}
-						<p class="available">暂无团</p>
-						{/if}
-					</td>
-					<td>
-						<a href="{:url('admin/group/del', ['id' => $v.group_id])}"
-							class="layui-btn layui-btn-xs layui-btn-danger ajax-delete"><i class="fa fa-trash-o"></i>
-							删除</a>
-					</td>
-				</tr>
-				{/foreach}
-			</tbody>
+            <div class="layui-input-inline">
+                <select name="goods_single">
+                    <option value="">拼团详情</option>
+                    <option value="1">非拼团用户</option>
+                </select>
+            </div>
 
-		</table>
-	</div>
+
+            <div class="layui-input-inline" style="width: 50px;">
+                <button class="layui-btn layui-btn-primary ajax-search"><i class="fa fa-search"></i></button>
+            </div>
+            <br>
+        </div>
+    </form>
 </div>
+
+
+<div class="layui-btn-group">
+    <div id="export">
+        <a href="{:url('admin/group/export')}" class="layui-btn">导出数据</a>
+    </div>
+</div>
+
+<table class="layui-table layui-form">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>商品id</th>
+        <th>商品图片</th>
+        <th>用户手机号</th>
+        <th>是否拼团购买</th>
+        <th>拼团开始时间</th>
+        <th>拼团结束时间</th>
+        <th>拼团详情</th>
+        <th>操作</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    {foreach name="all" item="v" empty="$empty"}
+    <tr>
+        <td>{$v.group_id}</td>
+        <td>{$v.goods_id}</td>
+        <td>
+            <img width="50px" height="50px" src="{$v.goods_image}" alt="{$v.goods_name}" srcset="">
+        </td>
+        <td>{$v.user_phone}</td>
+        <td>{$v.goods_oneself}</td>
+        <td>{:date('Y-m-d H:i:s',$v.group_add_time)}</td>
+        <td>{$v.group_finish_time}</td>
+        <!--判断是否开团-->
+        <td>
+            {if condition="$v.goods_single == 0"}
+            <!--团住id，然后查数据-->
+            <a href="{:url('admin/group/dumpling', ['group_follow' => $v.group_id])}" class="examine">查看团</a>
+            {else /}
+            <p class="available">暂无团</p>
+            {/if}
+        </td>
+        <td>
+            <a href="{:url('admin/group/del', ['id' => $v.group_id])}"
+               class="layui-btn layui-btn-xs layui-btn-danger ajax-delete"><i class="fa fa-trash-o"></i>
+                删除</a>
+        </td>
+    </tr>
+    {/foreach}
+    </tbody>
+</table>
+
+<script>
+    (function () {
+        var idArray = window.location.search.split("=");
+        var id = idArray[1];
+        // console.log(id);
+        let url = window.location.search
+        let obj = {}
+        let reg = /[?&][^?&]+=[^?&]+/g
+        let arr = url.match(reg)
+        if (arr) {
+            arr.forEach((item) => {
+                let tempArr = item.substr(1).split('=')
+                let key = decodeURIComponent(tempArr[0])
+                let val = decodeURIComponent(tempArr[1])
+                obj[key] = val
+            })
+        }
+        var test = Object.values(obj); //对象转化为数组
+        var expor = document.getElementById("export");
+        if (test.length == 1) {
+            var Url = "http://" + window.location.host + "/admin/group/export?user_phone" + '=' + test[0];
+            var a = "<a href='" + Url + "' class='layui-btn'>导出数据</a>";
+            expor.innerHTML = a;
+        }
+        if (test.length == 0) {
+            var Url = "http://" + window.location.host + "/admin/group/export";
+            var a = "<a href='" + Url + "' class='layui-btn'>导出数据</a>";
+            expor.innerHTML = a;
+        }
+        if (test.length == 2) {
+            var Url = "http://" + window.location.host + "/admin/group/export?user_phone" + '=' + test[0] + "&" + "goods_single" + "=" + test[1];
+            var a = "<a href='" + Url + "' class='layui-btn'>导出数据</a>";
+            expor.innerHTML = a;
+        }
+    })();
+</script>
 {/block}
