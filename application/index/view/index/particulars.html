@@ -19,21 +19,21 @@
     <script src="http://libs.baidu.com/jquery/1.9.0/jquery.js"></script>
     <script type="text/javascript">
         $(function () {
-            $(".demo1").jCarouselLite({
-                vertical: true,
-                hoverPause: true,
-                visible: 2,
-                auto: 1000,
-                speed: 1500
-            });
-
-            $(".demo2").jCarouselLite({
-                vertical: true,
-                hoverPause: true,
-                visible: 2,
-                auto: 1000,
-                speed: 1000
-            });
+            // $(".demo1").jCarouselLite({
+            //     vertical: true,
+            //     hoverPause: true,
+            //     visible: 2,
+            //     auto: 1000,
+            //     speed: 1500
+            // });
+            //
+            // $(".demo2").jCarouselLite({
+            //     vertical: true,
+            //     hoverPause: true,
+            //     visible: 2,
+            //     auto: 1000,
+            //     speed: 1000
+            // });
         });
     </script>
 </head>
@@ -64,14 +64,13 @@
         <!--拼团显示-->
         {empty name="user"}
         {else /}
-
             <div class="scrollDiv" id="s2">
                 <div class="offered">直接参与可快速成团</div>
                 <div class="offered-underline"></div>
                 <div class="demo1">
                 <ul>
                     {foreach name="user" item="v"}
-                    <li class="test">
+                    <li>
                         <a href="{:url('index/api/payment', [ 'group_id' => $v.id , 'goods_id' => $v.goods_id , 'superior_user_id' => $v.user_id])}"
                            class="offered-shaped">
                             <div class="offered-shaped-image">

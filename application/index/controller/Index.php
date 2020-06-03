@@ -46,6 +46,7 @@ class Index extends IndexBase
         * */
         $this->assign('user', $user);
         $this->assign('data', $data);
+//        dump($user);exit;
         return $this->fetch('particulars');
     }
 
