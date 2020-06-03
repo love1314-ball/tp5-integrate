@@ -10,13 +10,32 @@
     <link href="/mui/css/particulars.css" rel="stylesheet"/>
     <style>
         /*#s2, #s3 {*/
-    /*height: 1160px;*/
-    /*margin-top: 2%;*/
-    /*background-color: white;*/
-/*}*/
+        /*height: 1160px;*/
+        /*margin-top: 2%;*/
+        /*background-color: white;*/
+        /*}*/
     </style>
     <script src="/mui/js/mui.min.js"></script>
     <script src="http://libs.baidu.com/jquery/1.9.0/jquery.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $(".demo1").jCarouselLite({
+                vertical: true,
+                hoverPause: true,
+                visible: 2,
+                auto: 1000,
+                speed: 1500
+            });
+
+            $(".demo2").jCarouselLite({
+                vertical: true,
+                hoverPause: true,
+                visible: 2,
+                auto: 1000,
+                speed: 1000
+            });
+        });
+    </script>
 </head>
 <body>
 <header class="mui-bar mui-bar-nav">
@@ -45,47 +64,50 @@
         <!--拼团显示-->
         {empty name="user"}
         {else /}
-        <div class="scrollDiv" id="s2">
-            <div class="offered">直接参与可快速成团</div>
-            <div class="offered-underline"></div>
-            <ul>
-                {foreach name="user" item="v"}
-                <li>
-                    <a href="{:url('index/api/payment', [ 'group_id' => $v.id , 'goods_id' => $v.goods_id , 'superior_user_id' => $v.user_id])}" class="offered-shaped">
-                        <div class="offered-shaped-image">
-                            <img class="offered-image" src="/static/image/moren.jpg">
-                            <div class="offered-shaped-phone"><span class="">{$v.user_phone}</span></div>
-                        </div>
-                        <div class="offered-shaped-people">
-                            <p>还差1人</p>
-                            <p><span id="time">{$v.group_finish_time}</span></p>
-                        </div>
-                        <div class="offered-shaped-button">
-                            <button type="button" class="mui-btn mui-btn-danger mui-btn-outlined">立即参团</button>
-                        </div>
-                    </a>
-                </li>
-                {/foreach}
-            </ul>
+
+            <div class="scrollDiv" id="s2">
+                <div class="offered">直接参与可快速成团</div>
+                <div class="offered-underline"></div>
+                <div class="demo1">
+                <ul>
+                    {foreach name="user" item="v"}
+                    <li class="test">
+                        <a href="{:url('index/api/payment', [ 'group_id' => $v.id , 'goods_id' => $v.goods_id , 'superior_user_id' => $v.user_id])}"
+                           class="offered-shaped">
+                            <div class="offered-shaped-image">
+                                <img class="offered-image" src="/static/image/moren.jpg">
+                                <div class="offered-shaped-phone"><span class="">{$v.user_phone}</span></div>
+                            </div>
+                            <div class="offered-shaped-people">
+                                <p>还差1人</p>
+                                <p><span id="time">{$v.group_finish_time}</span></p>
+                            </div>
+                            <div class="offered-shaped-button">
+                                <button type="button" class="mui-btn mui-btn-danger mui-btn-outlined">立即参团</button>
+                            </div>
+                        </a>
+                    </li>
+                    {/foreach}
+                </ul>
+            </div>
         </div>
         {/empty}
-
         <div class="xpy-b">
             <p class="xpy-p">商品评价 <span id="add_com" style="float:right;">添加评价</span></p>
             <div id="com_list">
                 <div class="xpy-b-a">
                     <div class="xpy-b-a-t">
                         <div class="xpy-b-a-t-l">
-                            <img src="img/2.png"/>
+                            <img src="/static/image/moren.jpg"/>
                         </div>
                         <div class="xpy-b-a-t-r">
-                            <p>东翌学院
-                                <img style="width:15px;position: relative;top:2px" src="img/xing1.png"/>
+                            <p>测试数据
+                                <img style="width:15px;position: relative;top:2px" src="/static/image/jia.jpg"/>
                             </p>
                         </div>
                     </div>
                     <div class="xpy-b-a-b">
-                        <h4>混合app开发课程不错,学完之后可以开发自己的app了，好开心呀</h4>
+                        <h4>测试1测试2测试3测试4</h4>
                         <p>2016-11-4</p>
                     </div>
                 </div>
@@ -167,49 +189,185 @@
 
 
 <script type="text/javascript">
-    //滚动插件
-    (function ($) {
-        $.fn.extend({
-            Scroll: function (opt, callback) {
-                //参数初始化
-                if (!opt) var opt = {};
-                var _this = this.eq(0).find("ul:first");
-                var lineH = _this.find("li:first").height(), //获取行高
-                    line = opt.line ? parseInt(opt.line, 10) : parseInt(this.height() / lineH, 10), //每次滚动的行数，默认为一屏，即父容器高度
-                    speed = opt.speed ? parseInt(opt.speed, 10) : 500, //卷动速度，数值越大，速度越慢（毫秒）
-                    timer = opt.timer ? parseInt(opt.timer, 10) : 3000; //滚动的时间间隔（毫秒）
-                if (line == 0) line = 1;
-                var upHeight = 0 - line * lineH;
-                //滚动函数
-                scrollUp = function () {
-                    _this.animate({
-                        marginTop: upHeight
-                    }, speed, function () {
-                        for (i = 1; i <= line; i++) {
-                            _this.find("li:first").appendTo(_this);
-                        }
-                        _this.css({
-                            marginTop: 0
+
+
+    (function ($) {                                          // Compliant with jquery.noConflict()
+        $.fn.jCarouselLite = function (o) {
+            o = $.extend({
+                btnPrev: null,
+                btnNext: null,
+                btnGo: null,
+                mouseWheel: false,
+                auto: null,
+                hoverPause: false,
+
+                speed: 200,
+                easing: null,
+
+                vertical: false,
+                circular: true,
+                visible: 3,
+                start: 0,
+                scroll: 1,
+
+                beforeStart: null,
+                afterEnd: null
+            }, o || {});
+
+            return this.each(function () {                           // Returns the element collection. Chainable.
+
+                var running = false, animCss = o.vertical ? "top" : "left", sizeCss = o.vertical ? "height" : "width";
+                var div = $(this), ul = $("ul", div), tLi = $("li", ul), tl = tLi.size(), v = o.visible;
+
+                if (o.circular) {
+                    ul.prepend(tLi.slice(tl - v + 1).clone())
+                        .append(tLi.slice(0, o.scroll).clone());
+                    o.start += v - 1;
+                }
+
+                var li = $("li", ul), itemLength = li.size(), curr = o.start;
+                div.css("visibility", "visible");
+
+                li.css({overflow: "hidden", float: o.vertical ? "none" : "left"});
+                ul.css({margin: "0", padding: "0", position: "relative", "list-style-type": "none", "z-index": "1"});
+                div.css({overflow: "hidden", position: "relative", "z-index": "2", left: "0px"});
+
+                var liSize = o.vertical ? height(li) : width(li);   // Full li size(incl margin)-Used for animation
+                var ulSize = liSize * itemLength;                   // size of full ul(total length, not just for the visible items)
+                var divSize = liSize * v;                           // size of entire div(total length for just the visible items)
+
+                li.css({width: li.width(), height: li.height()});
+                ul.css(sizeCss, ulSize + "px").css(animCss, -(curr * liSize));
+
+                div.css(sizeCss, divSize + "px");                     // Width of the DIV. length of visible images
+
+                if (o.btnPrev) {
+                    $(o.btnPrev).click(function () {
+                        return go(curr - o.scroll);
+                    });
+                    if (o.hoverPause) {
+                        $(o.btnPrev).hover(function () {
+                            stopAuto();
+                        }, function () {
+                            startAuto();
+                        });
+                    }
+                }
+
+
+                if (o.btnNext) {
+                    $(o.btnNext).click(function () {
+                        return go(curr + o.scroll);
+                    });
+                    if (o.hoverPause) {
+                        $(o.btnNext).hover(function () {
+                            stopAuto();
+                        }, function () {
+                            startAuto();
+                        });
+                    }
+                }
+
+                if (o.btnGo)
+                    $.each(o.btnGo, function (i, val) {
+                        $(val).click(function () {
+                            return go(o.circular ? o.visible + i : i);
                         });
                     });
-                }
-                //鼠标事件绑定
-                _this.hover(function () {
-                    clearInterval(timerID);
-                }, function () {
-                    timerID = setInterval("scrollUp()", timer);
-                }).mouseout();
-            }
-        });
-    })(jQuery);
 
-    $(document).ready(function () {
-        $("#s2").Scroll({
-            line: 2,
-            speed: 500,
-            timer: 4000
-        });
-    });
+                if (o.mouseWheel && div.mousewheel)
+                    div.mousewheel(function (e, d) {
+                        return d > 0 ? go(curr - o.scroll) : go(curr + o.scroll);
+                    });
+
+                var autoInterval;
+
+                function startAuto() {
+                    stopAuto();
+                    autoInterval = setInterval(function () {
+                        go(curr + o.scroll);
+                    }, o.auto + o.speed);
+                };
+
+                function stopAuto() {
+                    clearInterval(autoInterval);
+                };
+
+                if (o.auto) {
+                    if (o.hoverPause) {
+                        div.hover(function () {
+                            stopAuto();
+                        }, function () {
+                            startAuto();
+                        });
+                    }
+                    startAuto();
+                }
+                ;
+
+                function vis() {
+                    return li.slice(curr).slice(0, v);
+                };
+
+                function go(to) {
+                    if (!running) {
+
+                        if (o.beforeStart)
+                            o.beforeStart.call(this, vis());
+
+                        if (o.circular) {            // If circular we are in first or last, then goto the other end
+                            if (to < 0) {           // If before range, then go around
+                                ul.css(animCss, -((curr + tl) * liSize) + "px");
+                                curr = to + tl;
+                            } else if (to > itemLength - v) { // If beyond range, then come around
+                                ul.css(animCss, -((curr - tl) * liSize) + "px");
+                                curr = to - tl;
+                            } else curr = to;
+                        } else {                    // If non-circular and to points to first or last, we just return.
+                            if (to < 0 || to > itemLength - v) return;
+                            else curr = to;
+                        }                           // If neither overrides it, the curr will still be "to" and we can proceed.
+
+                        running = true;
+
+                        ul.animate(
+                            animCss == "left" ? {left: -(curr * liSize)} : {top: -(curr * liSize)}, o.speed, o.easing,
+                            function () {
+                                if (o.afterEnd)
+                                    o.afterEnd.call(this, vis());
+                                running = false;
+                            }
+                        );
+                        // Disable buttons when the carousel reaches the last/first, and enable when not
+                        if (!o.circular) {
+                            $(o.btnPrev + "," + o.btnNext).removeClass("disabled");
+                            $((curr - o.scroll < 0 && o.btnPrev)
+                                ||
+                                (curr + o.scroll > itemLength - v && o.btnNext)
+                                ||
+                                []
+                            ).addClass("disabled");
+                        }
+
+                    }
+                    return false;
+                };
+            });
+        };
+
+        function css(el, prop) {
+            return parseInt($.css(el[0], prop)) || 0;
+        };
+
+        function width(el) {
+            return el[0].offsetWidth + css(el, 'marginLeft') + css(el, 'marginRight');
+        };
+
+        function height(el) {
+            return el[0].offsetHeight + css(el, 'marginTop') + css(el, 'marginBottom');
+        };
+
+    })(jQuery);
 </script>
 </body>
 </html>
