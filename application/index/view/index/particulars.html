@@ -26,7 +26,7 @@
             //     auto: 1000,
             //     speed: 1500
             // });
-            //
+            
             // $(".demo2").jCarouselLite({
             //     vertical: true,
             //     hoverPause: true,
@@ -63,6 +63,7 @@
 
         <!--拼团显示-->
         {empty name="user"}
+
         {else /}
             <div class="scrollDiv" id="s2">
                 <div class="offered">直接参与可快速成团</div>
@@ -78,7 +79,7 @@
                                 <div class="offered-shaped-phone"><span class="">{$v.user_phone}</span></div>
                             </div>
                             <div class="offered-shaped-people">
-                                <p>还差1人</p>
+                                <p>还差{$v.number}人</p>
                                 <p><span id="time">{$v.group_finish_time}</span></p>
                             </div>
                             <div class="offered-shaped-button">

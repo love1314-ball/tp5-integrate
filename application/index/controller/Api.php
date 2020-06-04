@@ -1,5 +1,7 @@
 <?php
+
 namespace app\index\controller;
+
 use app\common\controller\IndexBase;
 use think\Db;
 use think\response\Json;
@@ -12,15 +14,15 @@ class Api extends IndexBase
     {
         /*
          * $data['superior_user_id']    上级用户id/团主用户id
-         * $data['group_follow']        获取一下团主id
+         * $data['group_follow']        获取一下拼团表id
          * */
-        $user_phone = session('user_phone');
-        $data['goods_id']   = input('goods_id');
-        $data['user_phone'] = session('user_phone');
+        $user_phone               = session('user_phone');
+        $data['goods_id']         = input('goods_id');
+        $data['user_phone']       = session('user_phone');
         $data['alone']            = input('alone');
         $data['single']           = input('single');
         $data['superior_user_id'] = input('superior_user_id');
-        $data['group_follow'] = input('group_id');
+        $data['group_follow']     = input('group_id');
 
         if (!$user_phone) {
             echo '<script type="text/javascript">
@@ -67,7 +69,7 @@ class Api extends IndexBase
          */
 
         $where['id'] = $data['group_follow'];
-        $below = Db::name('group')->where($where)->select();
+        $below       = Db::name('group')->where($where)->select();
         $this->assign('data', $data);
         //input接受参数
         $this->assign('all', $all);
@@ -83,21 +85,21 @@ class Api extends IndexBase
         $group['user_id']           = session('user_id');
         $group['group_add_time']    = time();
         $group['goods_id']          = input('goods_id');
-        $finish                     = Db::name('goods')->where('id', $group['goods_id'])->value('goods_duration');
-        $group['group_finish_time'] = date('Y-m-d H:i:s', time() + $finish * 60 * 60);
+        $finish                     = Db::name('goods')->where('id', $group['goods_id'])->find();
+        $group['group_finish_time'] = date('Y-m-d H:i:s', time() + $finish['goods_duration'] * 60 * 60);
         /*
          * $alone                       如果为0就是参加别人的团 /为1那么就是自己开的团
          * $group['goods_single']       0代表参加拼团  /1代表自己购买，不参加任何团，购买过后直接发货
          * $group['superior_user_id']   接收团主id
          * */
-        $alone = input('alone');
-        $group['goods_single'] = input('goods_single');
+        $alone                     = input('alone');
+        $group['goods_single']     = input('goods_single');
         $group['superior_user_id'] = input('superior_user_id');
 
-        $order['user_phone'] = session('user_phone');
-        $order['user_id'] = session('user_id');
-        $order['order_mark'] = rand(0,9999999999999999);
-        $order['goods_id'] = input('goods_id');
+        $order['user_phone']     = session('user_phone');
+        $order['user_id']        = session('user_id');
+        $order['order_mark']     = rand(0, 9999999999999999);
+        $order['goods_id']       = input('goods_id');
         $order['order_add_time'] = $group['group_add_time'];
         /*
          * 增加订单表
@@ -114,9 +116,9 @@ class Api extends IndexBase
              * -- 订单表
              *  $order['group_alone'] = 1;          等于1，说明自己购买的没有使用团购
              * */
-            $order['group_alone'] = 1;
-            $group['group_master'] = 0;
-            $group['group_follow'] = 0;
+            $order['group_alone']      = 1;
+            $group['group_master']     = 0;
+            $group['group_follow']     = 0;
             $group['superior_user_id'] = 0;
             Db::name('order')->insert($order);
             $gr = Db::name('group')->insert($group);
@@ -135,7 +137,7 @@ class Api extends IndexBase
              * --订单表
              *  $order['group_alone'] = 0;                      等于1说明是拼团购买的
              * */
-            $order['group_alone'] = 0;
+            $order['group_alone']  = 0;
             $group['group_master'] = 1;
             $group['group_follow'] = input('group_id');
             if ($group['superior_user_id'] == $group['user_id']) {
@@ -160,6 +162,29 @@ class Api extends IndexBase
                     </script>';
                     exit;
                 } else {
+//                    group_follow //团主的id /要计算一下我们的团人数是否已经满
+                    $junior['group_follow'] = $group['group_follow'];
+                    $junior['goods_id']     = $group['goods_id'];
+                    $number                 = Db::name('group')->where($junior)->count();
+                    $number                 = $number + 1;
+                    //团队下的人数( 加一因为要算上自己 )
+                    /*
+                     * 判断用户是否已满
+                     * */
+                    if ($number > $finish['goods_group']) {
+                        echo '<script type="text/javascript">
+                            window.alert("团人已满"); 
+                            window.location.href = "http://www.tp5-integrate.com/index"
+                            </script>';
+                        exit;
+                    }
+                    if ($number == $finish['goods_group']) {
+                        echo '<script type="text/javascript">
+                            window.alert("团人已满"); 
+                            window.location.href = "http://www.tp5-integrate.com/index"
+                            </script>';
+                        exit;
+                    }
                     Db::name('order')->insert($order);
                     $gr = Db::name('group')->insert($group);
                 }
@@ -197,7 +222,7 @@ class Api extends IndexBase
         return $own;
     }
 
-   //退出账号
+    //退出账号
     public function out()
     {
         session('user_phone', null);

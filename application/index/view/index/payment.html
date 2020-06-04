@@ -35,6 +35,7 @@
             </div> -->
             <!-- 团队的信息，这个需要判断如果没有人参加所以要判断一下 -->
             {empty name="user"}
+
             {else /}
             {foreach name="user" item="v"}
             <div class="payment-superior-particulars">
@@ -47,7 +48,7 @@
             <div class="payment-superior-particulars">
                 <img class="payment-superior-image" src="/static/image/jia.jpg">
             </div>
-        </div>
+        </div> 
         {/if}
 
 

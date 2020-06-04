@@ -154,7 +154,8 @@ return [
     // +----------------------------------------------------------------------
 
     // 异常页面的模板文件
-    'exception_tmpl'          => THINK_PATH . 'tpl' . DS . 'error.html',
+    'exception_tmpl'          => THINK_PATH . 'tpl' . DS . 'think_exception.tpl',
+//    'exception_tmpl'          => THINK_PATH . 'tpl' . DS . 'error.html',
     // HttpException异常页面的模板文件
     'http_exception_template' => [
         404 => APP_PATH . 'common' . DS . 'view' . DS . 'tpl' . DS . '404.tpl',
